@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class MainWindow {
 
+	// store positions in static variables because the width and height of the
+	// elements are not accesible when we change from one window to another
 	private static double titleX = 0.0;
 	private static double buttonX = 0.0;
 	private static double buttonY = 0.0;
