@@ -3,11 +3,15 @@ package com.esanchez.devel.breakscounter.window;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainWindow extends Application {
 
+	private static final String TITLE = "Breaks Counter";
+	
 	public static void main(String[] args) {
 		System.out.println("Launching main window");
 		launch(args);
@@ -17,14 +21,22 @@ public class MainWindow extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		stage.setTitle("Breaks Counter");
+		stage.setTitle(TITLE);
+		
+		Pane root = new Pane();
+		
+		Label title = new Label(TITLE);
+		title.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
+		title.setLayoutX(10);
+		title.setLayoutY(10);
 		
 		Button button = new Button("Go to next window");
+		button.setLayoutX(100);
+		button.setLayoutY(50);
 		
 		button.setOnAction(e -> showSecondWindow(stage));
 		
-		StackPane root = new StackPane();
-		root.getChildren().add(button);
+		root.getChildren().addAll(title, button);
 		
 		Scene scene = new Scene(root, 300, 250);
 		
