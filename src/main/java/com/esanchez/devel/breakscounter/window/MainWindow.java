@@ -1,48 +1,52 @@
 package com.esanchez.devel.breakscounter.window;
 
+import com.esanchez.devel.breakscounter.util.Constants;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainWindow extends Application {
-
-	private static final String TITLE = "Breaks Counter";
 	
 	public static void main(String[] args) {
-		System.out.println("Launching main window");
 		launch(args);
-		System.out.println("Main window launched");
 	}
 	
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		stage.setTitle(TITLE);
+		stage.setTitle(Constants.APP_TITLE);
 		
 		Pane root = new Pane();
 		
-		Label title = new Label(TITLE);
+		// Create window elements
+		Label title = new Label(Constants.APP_TITLE);
 		title.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
-		title.setLayoutX(10);
-		title.setLayoutY(10);
 		
 		Button button = new Button("Go to next window");
-		button.setLayoutX(100);
-		button.setLayoutY(50);
 		
 		button.setOnAction(e -> showSecondWindow(stage));
 		
 		root.getChildren().addAll(title, button);
 		
-		Scene scene = new Scene(root, 300, 250);
+		// Create the scene and show the window
+		Scene scene = new Scene(root, Constants.APP_WIDTH, Constants.APP_HEIGHT);
 		
 		stage.setScene(scene);
-		System.out.println("Showing main window");
 		stage.show();
+		
+        // Place the elements in the right place when we have all elements size available
+        Platform.runLater(() -> {
+            title.setLayoutX((Constants.APP_WIDTH / 2) - (title.getWidth() / 2));
+    		title.setLayoutY(50);
+
+    		button.setLayoutX((Constants.APP_WIDTH / 2) - (button.getWidth() / 2));
+    		button.setLayoutY(title.getHeight() + 70);
+        });
 	}
 	
 	private void showSecondWindow(Stage stage) {
