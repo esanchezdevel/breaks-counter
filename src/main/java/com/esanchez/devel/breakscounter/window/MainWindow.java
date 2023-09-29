@@ -10,6 +10,10 @@ import javafx.stage.Stage;
 
 public class MainWindow {
 
+	private static double titleX = 0.0;
+	private static double buttonX = 0.0;
+	private static double buttonY = 0.0;
+	
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
 		
@@ -27,11 +31,22 @@ public class MainWindow {
 		
         // Place the elements in the right place when we have all elements size available
         Platform.runLater(() -> {
-            title.setLayoutX((Constants.APP_WIDTH / 2) - (title.getWidth() / 2));
+        	if (title.getWidth() > 0) {
+              titleX = (Constants.APP_WIDTH / 2) - (title.getWidth() / 2);           		
+        	}
+        	title.setLayoutX(titleX);
     		title.setLayoutY(50);
 
-    		button.setLayoutX((Constants.APP_WIDTH / 2) - (button.getWidth() / 2));
-    		button.setLayoutY(title.getHeight() + 70);
+    		if (button.getWidth() > 0) {
+    			buttonX = (Constants.APP_WIDTH / 2) - (button.getWidth() / 2); 
+    		}
+
+        	if (title.getHeight() > 0) {
+        		buttonY = title.getHeight() + 70;
+        	}
+    		
+    		button.setLayoutX(buttonX);
+    		button.setLayoutY(buttonY);
         });
 	}
 }
