@@ -204,6 +204,7 @@ public class MainWindow {
 			// Setting isStarted to "false" we can stop the process executed in the thread
 			System.out.println("Setting isStarted to false...");
 			isStarted = false;
+			processThread.interrupt();
 		}
 	}
 }
