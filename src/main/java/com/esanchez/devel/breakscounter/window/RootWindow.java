@@ -43,6 +43,9 @@ public class RootWindow extends Application {
 		// Create the scene and show the window
 		Scene scene = new Scene(rootLayout, Constants.APP_WIDTH, Constants.APP_HEIGHT);
 		
+		// Not allow the user to resize the window
+		stage.setResizable(false);
+		
 		stage.setScene(scene);
 		stage.show();
 	}
