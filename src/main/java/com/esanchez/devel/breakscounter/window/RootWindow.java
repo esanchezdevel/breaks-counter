@@ -4,7 +4,11 @@ import com.esanchez.devel.breakscounter.util.Constants;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class RootWindow extends Application {
@@ -30,6 +34,10 @@ public class RootWindow extends Application {
 		// The BorderPane is used to put the windows content in the center
 		rootLayout = new BorderPane();
 
+		BackgroundFill backgroundFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
+		Background background = new Background(backgroundFill);
+		rootLayout.setBackground(background);
+		
 		MainWindow.show(stage);
 		
 		// Create the scene and show the window
