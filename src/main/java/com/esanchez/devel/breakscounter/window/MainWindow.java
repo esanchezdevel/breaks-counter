@@ -41,6 +41,10 @@ public class MainWindow {
 	private static boolean isStarted = false;
 	
 	private static Button startStopButton;
+	private static ComboBox<String> formHoursCombo;
+	private static ComboBox<String> formMinutesCombo;
+	
+	private static Thread processThread;
 	
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
@@ -65,15 +69,14 @@ public class MainWindow {
 		Label formHoursLabel = new Label("Hours:");
 		formHoursLabel.setFont(fontText);
 
-		ComboBox<String> formHoursCombo = new ComboBox<>();
+		formHoursCombo = new ComboBox<>();
 		formHoursCombo.getItems().addAll("00", "01", "02");
 		formHoursCombo.setValue("00");
 
 		Label formMinutesLabel = new Label("Minutes:");
 		formMinutesLabel.setFont(fontText);
 
-		ComboBox<String> formMinutesCombo = new ComboBox<>();
-
+		formMinutesCombo = new ComboBox<>();
 		formMinutesCombo.getItems().addAll("00", "10", "20", "30", "40", "50");
 		formMinutesCombo.setValue("00");
 
@@ -84,7 +87,7 @@ public class MainWindow {
 		startStopButton.setPrefWidth(100);
 
 		//startButton.setOnAction(e -> SecondWindow.show(stage));
-		startStopButton.setOnAction(e -> {
+		startStopButton.setOnAction(event -> {
 			if (!isStarted)
 				isStarted = true;
 			else
@@ -93,6 +96,15 @@ public class MainWindow {
 			startStopNotifications(stage);
 		});
 
+		stage.setOnCloseRequest(event -> {
+            System.out.println("User is closing the window...");
+
+            if (isStarted) {
+            	isStarted = false;
+            	processThread.interrupt();
+            }
+        });
+		
 		layout.getChildren().addAll(title, description, formHoursLabel, formHoursCombo, formMinutesLabel,
 				formMinutesCombo, startStopButton);
 
@@ -147,14 +159,25 @@ public class MainWindow {
 		if (isStarted) {
 			// Logic to start the process
 			// TODO calculate milliseconds of time configured by user
+			int hours = Integer.valueOf(formHoursCombo.getValue());
+			int minutes = Integer.valueOf(formMinutesCombo.getValue());
+			
+			System.out.println("User selected Hours: " + hours + ", minutes: " + minutes);
+			
 			double waitTime = 30000; // 30seconds to test
 			
 			isStarted = true;
 
-			Thread processThread = new Thread(() -> {
+			processThread = new Thread(() -> {
 				System.out.println("Starting processThread...");
 				long startTime = System.currentTimeMillis();
 				while (isStarted) {
+
+					if (processThread.isInterrupted()) {
+						System.out.println("The thread was interrupted. Exit");
+						break;
+					}
+					
 					long currentTime = System.currentTimeMillis();
 					if (currentTime - startTime > waitTime) {
 						System.out.println("Show notification");
