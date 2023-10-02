@@ -35,10 +35,12 @@ public class MainWindow {
 	private static double formMinutesComboX = 0.0;
 	private static double formMinutesComboY = 260.0;
 
-	private static double startButtonX = 0.0;
-	private static double startButtonY = 320.00;
+	private static double startStopButtonX = 0.0;
+	private static double startStopButtonY = 320.00;
 
-	private static boolean processNotifications = false;
+	private static boolean isStarted = false;
+	
+	private static Button startStopButton;
 	
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
@@ -75,17 +77,24 @@ public class MainWindow {
 		formMinutesCombo.getItems().addAll("00", "10", "20", "30", "40", "50");
 		formMinutesCombo.setValue("00");
 
-		Button startButton = new Button("Start");
-		startButton.setFont(fontButton);
-		startButton.setTextFill(Color.WHITE);
-		startButton.setStyle("-fx-background-color: #2874a6; -fx-border-color: #17202a; -fx-border-width: 0 2 2 0;");
-		startButton.setPrefWidth(100);
+		startStopButton = new Button("Start");
+		startStopButton.setFont(fontButton);
+		startStopButton.setTextFill(Color.WHITE);
+		startStopButton.setStyle("-fx-background-color: #2874a6; -fx-border-color: #17202a; -fx-border-width: 0 2 2 0;");
+		startStopButton.setPrefWidth(100);
 
 		//startButton.setOnAction(e -> SecondWindow.show(stage));
-		startButton.setOnAction(e -> startNotifications(stage));
+		startStopButton.setOnAction(e -> {
+			if (!isStarted)
+				isStarted = true;
+			else
+				isStarted = false;
+			
+			startStopNotifications(stage);
+		});
 
 		layout.getChildren().addAll(title, description, formHoursLabel, formHoursCombo, formMinutesLabel,
-				formMinutesCombo, startButton);
+				formMinutesCombo, startStopButton);
 
 		RootWindow.rootLayout.setCenter(layout);
 
@@ -120,34 +129,46 @@ public class MainWindow {
 			formMinutesCombo.setLayoutX(formMinutesComboX);
 			formMinutesCombo.setLayoutY(formMinutesComboY);
 
-			if (startButton.getWidth() > 0) {
-				startButtonX = (Constants.APP_WIDTH / 2) - (startButton.getWidth() / 2);
+			if (startStopButton.getWidth() > 0) {
+				startStopButtonX = (Constants.APP_WIDTH / 2) - (startStopButton.getWidth() / 2);
 			}
 
-			startButton.setLayoutX(startButtonX);
-			startButton.setLayoutY(startButtonY);
+			startStopButton.setLayoutX(startStopButtonX);
+			startStopButton.setLayoutY(startStopButtonY);
 		});
 	}
 	
-	private static void startNotifications(Stage stage) {
-		System.out.println("Calculate notifications");
+	private static void startStopNotifications(Stage stage) {
+		System.out.println("Start/Stop Notifications with isStarted: " + isStarted);
 		
-		// TODO replace START button with one STOP button
+		// Print the right text on the START/STOP button
+		startStopButton.setText(isStarted ? "Stop" : "Start");
 		
-		// TODO calculate milliseconds of time configured by user
-		double waitTime = 30000; // 30seconds to test
-		
-		processNotifications = true;
-		
-		long startTime = System.currentTimeMillis();
-		
-		while (processNotifications) {
-			long currentTime = System.currentTimeMillis();
-			if (currentTime - startTime > waitTime) {
-				System.out.println("Show notification");
-				// TODO show new window with the notification
-				startTime = currentTime;
-			}
+		if (isStarted) {
+			// Logic to start the process
+			// TODO calculate milliseconds of time configured by user
+			double waitTime = 30000; // 30seconds to test
+			
+			isStarted = true;
+
+			Thread processThread = new Thread(() -> {
+				System.out.println("Starting processThread...");
+				long startTime = System.currentTimeMillis();
+				while (isStarted) {
+					long currentTime = System.currentTimeMillis();
+					if (currentTime - startTime > waitTime) {
+						System.out.println("Show notification");
+						// TODO show new window with the notification
+						startTime = currentTime;
+					}
+				}
+				System.out.println("Finishing thread...");
+			});
+			processThread.start();
+		} else {
+			// Setting isStarted to "false" we can stop the process executed in the thread
+			System.out.println("Setting isStarted to false...");
+			isStarted = false;
 		}
 	}
 }
