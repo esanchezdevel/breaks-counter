@@ -38,6 +38,8 @@ public class MainWindow {
 	private static double startButtonX = 0.0;
 	private static double startButtonY = 320.00;
 
+	private static boolean processNotifications = false;
+	
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
 
@@ -58,7 +60,6 @@ public class MainWindow {
 		// Options available to configure by the user:
 		// 1. Hours
 		// 2. Minutes
-
 		Label formHoursLabel = new Label("Hours:");
 		formHoursLabel.setFont(fontText);
 
@@ -80,7 +81,8 @@ public class MainWindow {
 		startButton.setStyle("-fx-background-color: #2874a6; -fx-border-color: #17202a; -fx-border-width: 0 2 2 0;");
 		startButton.setPrefWidth(100);
 
-		startButton.setOnAction(e -> SecondWindow.show(stage));
+		//startButton.setOnAction(e -> SecondWindow.show(stage));
+		startButton.setOnAction(e -> startNotifications(stage));
 
 		layout.getChildren().addAll(title, description, formHoursLabel, formHoursCombo, formMinutesLabel,
 				formMinutesCombo, startButton);
@@ -125,5 +127,27 @@ public class MainWindow {
 			startButton.setLayoutX(startButtonX);
 			startButton.setLayoutY(startButtonY);
 		});
+	}
+	
+	private static void startNotifications(Stage stage) {
+		System.out.println("Calculate notifications");
+		
+		// TODO replace START button with one STOP button
+		
+		// TODO calculate milliseconds of time configured by user
+		double waitTime = 30000; // 30seconds to test
+		
+		processNotifications = true;
+		
+		long startTime = System.currentTimeMillis();
+		
+		while (processNotifications) {
+			long currentTime = System.currentTimeMillis();
+			if (currentTime - startTime > waitTime) {
+				System.out.println("Show notification");
+				// TODO show new window with the notification
+				startTime = currentTime;
+			}
+		}
 	}
 }
