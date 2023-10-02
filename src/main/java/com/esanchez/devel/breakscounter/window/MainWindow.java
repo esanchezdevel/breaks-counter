@@ -4,6 +4,7 @@ import com.esanchez.devel.breakscounter.util.Constants;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -15,7 +16,23 @@ public class MainWindow {
 	// store positions in static variables because the width and height of the
 	// elements are not accesible when we change from one window to another
 	private static double titleX = 0.0;
+	private static double titleY = 50.0;
+	
 	private static double descriptionX = 0.0;
+	private static double descriptionY = 120.00;
+	
+	private static double formHoursLabelX = 0.0;
+	private static double formHoursLabelY = 240.0;
+	
+	private static double formHoursComboX = 0.0;
+	private static double formHoursComboY = 240.0;
+	
+	private static double formMinutesLabelX = 0.0;
+	private static double formMinutesLabelY = 300.0;
+	
+	private static double formMinutesComboX = 0.0;
+	private static double formMinutesComboY = 300.0;
+	
 	private static double buttonX = 0.0;
 	private static double buttonY = 0.0;
 	
@@ -28,21 +45,36 @@ public class MainWindow {
 		// Create window elements
 		Label title = new Label(Constants.APP_TITLE);
 		title.setFont(fontTitle);
-		
-		String descriptionString = "Choose the frequency of how often you want to be notified to take a break:";
-		Label description = new Label(descriptionString);
+
+		Label description = new Label("Choose the frequency of how often you want to be notified to take a break:");
 		description.setFont(fontText);
-		
 		
 		// Options available to configure by the user:
 		// 1. Hours
 		// 2. Minutes
 		
-		Button button = new Button("Go to next window");
+		Label formHoursLabel = new Label("Hours:");
+		formHoursLabel.setFont(fontText);
+		
+		ComboBox<String> formHoursCombo = new ComboBox<>();
+		formHoursCombo.getItems().addAll("0", "1", "2");
+		formHoursCombo.setValue("0");
+		
+		Label formMinutesLabel = new Label("Minutes:");
+		formMinutesLabel.setFont(fontText);
+
+		ComboBox<String> formMinutesCombo = new ComboBox<>();
+
+        for (int i = 0; i <= 59; i++) {
+        	formMinutesCombo.getItems().add(String.valueOf(i));
+        }
+		formMinutesCombo.setValue("0");
+		
+		Button button = new Button("Start");
 		
 		button.setOnAction(e -> SecondWindow.show(stage));
 		
-		layout.getChildren().addAll(title, description, button);
+		layout.getChildren().addAll(title, description, formHoursLabel, formHoursCombo, formMinutesLabel, formMinutesCombo, button);
 		
 		RootWindow.rootLayout.setCenter(layout);
 		
@@ -52,20 +84,36 @@ public class MainWindow {
               titleX = (Constants.APP_WIDTH / 2) - (title.getWidth() / 2);           		
         	}
         	title.setLayoutX(titleX);
-    		title.setLayoutY(50);
+    		title.setLayoutY(titleY);
     		
     		if (description.getWidth() > 0) {
     			descriptionX = (Constants.APP_WIDTH / 2) - (description.getWidth() / 2);
     		}
     		description.setLayoutX(descriptionX);
-    		description.setLayoutY(title.getHeight() + 70);
+    		description.setLayoutY(descriptionY);
 
+   			formHoursLabelX = 100;
+    		formHoursLabel.setLayoutX(formHoursLabelX);
+    		formHoursLabel.setLayoutY(formHoursLabelY);
+    		
+   			formHoursComboX = 300;
+    		formHoursCombo.setLayoutX(formHoursComboX);
+    		formHoursCombo.setLayoutY(formHoursComboY);
+
+   			formMinutesLabelX = 100;
+    		formMinutesLabel.setLayoutX(formMinutesLabelX);
+    		formMinutesLabel.setLayoutY(formMinutesLabelY);
+    		
+   			formMinutesComboX = 300;
+    		formMinutesCombo.setLayoutX(formMinutesComboX);
+    		formMinutesCombo.setLayoutY(formMinutesComboY);
+    		
     		if (button.getWidth() > 0) {
     			buttonX = (Constants.APP_WIDTH / 2) - (button.getWidth() / 2); 
     		}
 
         	if (title.getHeight() > 0) {
-        		buttonY = title.getHeight() + 100;
+        		buttonY = 700;
         	}
     		
     		button.setLayoutX(buttonX);
