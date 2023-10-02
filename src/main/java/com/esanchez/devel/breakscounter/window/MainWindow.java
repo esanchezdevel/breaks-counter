@@ -1,5 +1,7 @@
 package com.esanchez.devel.breakscounter.window;
 
+import java.time.LocalDateTime;
+
 import com.esanchez.devel.breakscounter.util.Constants;
 
 import javafx.application.Platform;
@@ -157,14 +159,18 @@ public class MainWindow {
 		startStopButton.setText(isStarted ? "Stop" : "Start");
 		
 		if (isStarted) {
-			// Logic to start the process
-			// TODO calculate milliseconds of time configured by user
+			// Start the process to show notifications
 			int hours = Integer.valueOf(formHoursCombo.getValue());
 			int minutes = Integer.valueOf(formMinutesCombo.getValue());
 			
 			System.out.println("User selected Hours: " + hours + ", minutes: " + minutes);
 			
-			double waitTime = 30000; // 30seconds to test
+			long hoursMilliseconds = hours * 60 * 60 * 1000;
+			long minutesMilliseconds = minutes *60 * 1000;
+			
+			long waitTime = hoursMilliseconds + minutesMilliseconds;
+			
+			//double waitTime = 30000; // 30seconds to test
 			
 			isStarted = true;
 
@@ -172,7 +178,13 @@ public class MainWindow {
 				System.out.println("Starting processThread...");
 				long startTime = System.currentTimeMillis();
 				while (isStarted) {
-
+					try {
+						Thread.sleep(30000);
+					} catch (InterruptedException e) {
+						System.out.println("Error in thread while waiting for next iteration");
+						e.printStackTrace();
+					}
+					
 					if (processThread.isInterrupted()) {
 						System.out.println("The thread was interrupted. Exit");
 						break;
@@ -180,7 +192,7 @@ public class MainWindow {
 					
 					long currentTime = System.currentTimeMillis();
 					if (currentTime - startTime > waitTime) {
-						System.out.println("Show notification");
+						System.out.println("Show notification: " + LocalDateTime.now());
 						// TODO show new window with the notification
 						startTime = currentTime;
 					}
