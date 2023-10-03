@@ -168,9 +168,9 @@ public class MainWindow {
 			long hoursMilliseconds = hours * 60 * 60 * 1000;
 			long minutesMilliseconds = minutes *60 * 1000;
 			
-			long waitTime = hoursMilliseconds + minutesMilliseconds;
+			final long waitTime = hoursMilliseconds + minutesMilliseconds;
 			
-			//double waitTime = 30000; // 30seconds to test
+			//final long waitTime = 30000; // TODO remove. TEST Purpose to show notifications every 30seconds
 			
 			isStarted = true;
 
@@ -181,8 +181,7 @@ public class MainWindow {
 					try {
 						Thread.sleep(30000);
 					} catch (InterruptedException e) {
-						System.out.println("Error in thread while waiting for next iteration");
-						e.printStackTrace();
+						System.out.println("Thread interrupted while waiting for next iteration");
 					}
 					
 					if (processThread.isInterrupted()) {
@@ -192,8 +191,18 @@ public class MainWindow {
 					
 					long currentTime = System.currentTimeMillis();
 					if (currentTime - startTime > waitTime) {
-						System.out.println("Show notification: " + LocalDateTime.now());
-						// TODO show new window with the notification
+						System.out.println("Show new notification: " + LocalDateTime.now());
+
+						Platform.runLater(() -> {
+							NotificationWindow notificationWindow = new NotificationWindow();
+							try {
+								notificationWindow.start(new Stage());
+							} catch (Exception e) {
+								System.out.println("Error starting notification window");
+								e.printStackTrace();
+							}							
+						});
+						
 						startTime = currentTime;
 					}
 				}
