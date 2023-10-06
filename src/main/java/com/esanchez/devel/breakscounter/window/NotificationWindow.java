@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
@@ -38,8 +40,24 @@ public class NotificationWindow extends Application {
 		// Create window elements
 		Label message = new Label(MESSAGE);
 		message.setFont(fontText);
+
 		
-		layout.getChildren().addAll(message);
+        ClassLoader classLoader = getClass().getClassLoader();
+        String imageDrinkUrl = classLoader.getResource("images/dog-drink-water.gif").toExternalForm();
+        String imageExerciseUrl = classLoader.getResource("images/estiramientos1.gif").toExternalForm();
+        
+		Image imageDrink = new Image(imageDrinkUrl);
+		Image imageExercise = new Image(imageExerciseUrl);
+		
+		ImageView imageViewDrink = new ImageView(imageDrink);
+		imageViewDrink.setFitWidth(100);
+		imageViewDrink.setFitHeight(100);
+		
+		ImageView imageViewExercise = new ImageView(imageExercise);
+		imageViewExercise.setFitWidth(100);
+		imageViewExercise.setFitHeight(100);
+		
+		layout.getChildren().addAll(message, imageViewDrink, imageViewExercise);
 
 		// Create the scene and show the window
 		Scene scene = new Scene(layout, 400, 100);
