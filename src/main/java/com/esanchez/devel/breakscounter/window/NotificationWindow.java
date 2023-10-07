@@ -17,8 +17,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class NotificationWindow extends Application {
@@ -42,7 +44,7 @@ public class NotificationWindow extends Application {
 	public void start(Stage stage) throws Exception {
 
 		Font fontText = Font.font("Verdana", 12);
-		
+
 		stage.setTitle(Constants.APP_TITLE);
 
 		Pane layout = new Pane();
@@ -106,7 +108,12 @@ public class NotificationWindow extends Application {
 		
 		// Show the window
 		stage.setScene(scene);
+		stage.setAlwaysOnTop(true);
+		stage.setAlwaysOnTop(false);
 		stage.show();
+		stage.requestFocus();
+		stage.toFront();
+
 		
 		// Place the elements in the right place when we have all elements size
 		// available
