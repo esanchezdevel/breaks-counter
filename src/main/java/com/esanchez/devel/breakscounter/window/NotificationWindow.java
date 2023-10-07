@@ -2,6 +2,8 @@ package com.esanchez.devel.breakscounter.window;
 
 import com.esanchez.devel.breakscounter.util.Constants;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -17,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class NotificationWindow extends Application {
 
@@ -91,6 +94,17 @@ public class NotificationWindow extends Application {
 		// Not allow the user to resize the window
 		stage.setResizable(false);
 
+		// Logic to close the window after 30seconds
+		Duration duration = Duration.seconds(30);
+		
+		KeyFrame keyFrame = new KeyFrame(duration, event -> {
+			stage.close();
+		});
+		
+		Timeline timeline = new Timeline(keyFrame);
+		timeline.play();
+		
+		// Show the window
 		stage.setScene(scene);
 		stage.show();
 		
