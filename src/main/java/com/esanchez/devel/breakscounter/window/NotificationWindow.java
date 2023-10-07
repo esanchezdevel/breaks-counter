@@ -9,7 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -24,6 +28,9 @@ public class NotificationWindow extends Application {
 	private static double messageX = 0.00;
 	private static double messageY = WINDOW_HEIGHT / 2;
 	
+	private static double imageDrinkX = WINDOW_WIDTH - 100;
+	private static double imageDrinkY = 0.00;
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -37,6 +44,10 @@ public class NotificationWindow extends Application {
 
 		Pane layout = new Pane();
 
+		BackgroundFill backgroundFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
+		Background background = new Background(backgroundFill);
+		layout.setBackground(background);
+		
 		// Create window elements
 		Label message = new Label(MESSAGE);
 		message.setFont(fontText);
@@ -91,6 +102,9 @@ public class NotificationWindow extends Application {
 			}
 			message.setLayoutX(messageX);
 			message.setLayoutY(messageY);
+			
+			imageViewDrink.setLayoutX(imageDrinkX);
+			imageViewDrink.setLayoutY(imageDrinkY);
 		});
 	}
 }
