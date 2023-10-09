@@ -108,12 +108,10 @@ public class NotificationWindow extends Application {
 		
 		// Show the window
 		stage.setScene(scene);
-		stage.setAlwaysOnTop(true);
-		stage.setAlwaysOnTop(false);
-		stage.show();
-		stage.requestFocus();
 		stage.toFront();
-
+		stage.setAlwaysOnTop(true);
+		stage.requestFocus();
+		stage.show();
 		
 		// Place the elements in the right place when we have all elements size
 		// available
