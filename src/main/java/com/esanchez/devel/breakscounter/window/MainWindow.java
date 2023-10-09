@@ -82,7 +82,6 @@ public class MainWindow {
 		startStopButton.setStyle("-fx-background-color: #2874a6; -fx-border-color: #17202a; -fx-border-width: 0 2 2 0;");
 		startStopButton.setPrefWidth(100);
 
-		//startButton.setOnAction(e -> SecondWindow.show(stage));
 		startStopButton.setOnAction(event -> {
 			if (!isStarted)
 				isStarted = true;
@@ -163,8 +162,6 @@ public class MainWindow {
 			long minutesMilliseconds = minutes *60 * 1000;
 			
 			final long waitTime = hoursMilliseconds + minutesMilliseconds;
-			
-			//final long waitTime = 30000; // TODO remove. TEST Purpose to show notifications every 30seconds
 			
 			isStarted = true;
 
