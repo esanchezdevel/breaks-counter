@@ -4,6 +4,7 @@ import com.esanchez.devel.breakscounter.util.Constants;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -37,6 +38,12 @@ public class RootWindow extends Application {
 		BackgroundFill backgroundFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
 		Background background = new Background(backgroundFill);
 		rootLayout.setBackground(background);
+		
+		// Configure the application icon
+		ClassLoader classLoader = getClass().getClassLoader();
+		String iconImageUrl = classLoader.getResource("images/icon.png").toExternalForm();
+		Image iconImage = new Image(iconImageUrl);
+		stage.getIcons().add(iconImage);
 		
 		MainWindow.show(stage);
 		
