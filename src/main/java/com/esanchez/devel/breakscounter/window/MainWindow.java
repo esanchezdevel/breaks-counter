@@ -3,6 +3,7 @@ package com.esanchez.devel.breakscounter.window;
 import java.time.LocalDateTime;
 
 import com.esanchez.devel.breakscounter.util.Constants;
+import com.esanchez.devel.breakscounter.util.CustomFonts;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -10,9 +11,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class MainWindow {
@@ -51,44 +49,39 @@ public class MainWindow {
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
 
-		Font fontTitle = Font.font("Verdana", FontWeight.BOLD, 24);
-		Font fontText = Font.font("Verdana", 12);
-		Font fontButton = Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC, 12);
-
 		Color customBlue = Color.web("#2874a6");
 		
 		// Create window elements
 		Label title = new Label(Constants.APP_TITLE);
-		title.setFont(fontTitle);
+		title.setFont(CustomFonts.title());
 		title.setTextFill(customBlue);
 
 		Label description = new Label("Choose the frequency of how often you want to be notified to take a break:");
-		description.setFont(fontText);
+		description.setFont(CustomFonts.text());
 
 		// Options available to configure by the user:
 		// 1. Hours
 		// 2. Minutes
 		Label formHoursLabel = new Label("Hours:");
-		formHoursLabel.setFont(fontText);
+		formHoursLabel.setFont(CustomFonts.text());
 
 		formHoursCombo = new ComboBox<>();
 		formHoursCombo.getItems().addAll("00", "01", "02");
 		formHoursCombo.setValue("00");
 
 		Label formMinutesLabel = new Label("Minutes:");
-		formMinutesLabel.setFont(fontText);
+		formMinutesLabel.setFont(CustomFonts.text());
 
 		formMinutesCombo = new ComboBox<>();
 		formMinutesCombo.getItems().addAll("00", "10", "20", "30", "40", "50");
 		formMinutesCombo.setValue("00");
 
 		startStopButton = new Button("Start");
-		startStopButton.setFont(fontButton);
+		startStopButton.setFont(CustomFonts.button());
 		startStopButton.setTextFill(Color.WHITE);
 		startStopButton.setStyle("-fx-background-color: #2874a6; -fx-border-color: #17202a; -fx-border-width: 0 2 2 0;");
 		startStopButton.setPrefWidth(100);
 
-		//startButton.setOnAction(e -> SecondWindow.show(stage));
 		startStopButton.setOnAction(event -> {
 			if (!isStarted)
 				isStarted = true;
@@ -170,10 +163,9 @@ public class MainWindow {
 			
 			final long waitTime = hoursMilliseconds + minutesMilliseconds;
 			
-			//final long waitTime = 30000; // TODO remove. TEST Purpose to show notifications every 30seconds
-			
 			isStarted = true;
 
+			// Asynchronous thread where control when the notification window has to be shown
 			processThread = new Thread(() -> {
 				System.out.println("Starting processThread...");
 				long startTime = System.currentTimeMillis();
