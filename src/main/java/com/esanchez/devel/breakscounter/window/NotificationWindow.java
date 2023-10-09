@@ -1,6 +1,7 @@
 package com.esanchez.devel.breakscounter.window;
 
 import com.esanchez.devel.breakscounter.util.Constants;
+import com.esanchez.devel.breakscounter.util.CustomFonts;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,11 +17,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class NotificationWindow extends Application {
@@ -43,8 +41,6 @@ public class NotificationWindow extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 
-		Font fontText = Font.font("Verdana", 12);
-
 		stage.setTitle(Constants.APP_TITLE);
 
 		Pane layout = new Pane();
@@ -55,7 +51,7 @@ public class NotificationWindow extends Application {
 		
 		// Create window elements
 		Label message = new Label(MESSAGE);
-		message.setFont(fontText);
+		message.setFont(CustomFonts.text());
 
 		
         ClassLoader classLoader = getClass().getClassLoader();
