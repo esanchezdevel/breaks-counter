@@ -165,6 +165,7 @@ public class MainWindow {
 			
 			isStarted = true;
 
+			// Asynchronous thread where control when the notification window has to be shown
 			processThread = new Thread(() -> {
 				System.out.println("Starting processThread...");
 				long startTime = System.currentTimeMillis();
