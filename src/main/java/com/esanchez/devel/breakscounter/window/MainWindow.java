@@ -107,7 +107,7 @@ public class MainWindow {
 		layout.getChildren().addAll(title, description, formHoursLabel, formHoursCombo, formMinutesLabel,
 				formMinutesCombo, startStopButton);
 
-		RootWindow.rootLayout.setCenter(layout);
+		RootWindow.getRootLayout().setCenter(layout);
 
 		// Place the elements in the right place when we have all elements size
 		// available
@@ -157,8 +157,8 @@ public class MainWindow {
 		
 		if (isStarted) {
 			// Start the process to show notifications
-			int hours = Integer.valueOf(formHoursCombo.getValue());
-			int minutes = Integer.valueOf(formMinutesCombo.getValue());
+			int hours = Integer.parseInt(formHoursCombo.getValue());
+			int minutes = Integer.parseInt(formMinutesCombo.getValue());
 			
 			System.out.println("User selected Hours: " + hours + ", minutes: " + minutes);
 			

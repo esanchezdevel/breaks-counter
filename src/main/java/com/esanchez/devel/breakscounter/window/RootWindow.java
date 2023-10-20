@@ -14,13 +14,15 @@ import javafx.stage.Stage;
 
 public class RootWindow extends Application {
 	
-	public static BorderPane rootLayout;
+	// The BorderPane is used to put the windows content in the center
+	private static final BorderPane rootLayout = new BorderPane();
 	private Stage stage;
 	
+	public static BorderPane getRootLayout() {
+		return rootLayout;
+	}
 	
 	public static void main(String[] args) {
-		// The BorderPane is used to put the windows content in the center
-		rootLayout = new BorderPane();
 		launch(args);
 	}
 	

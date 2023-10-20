@@ -95,9 +95,7 @@ public class NotificationWindow extends Application {
 		// Logic to close the window after 30seconds
 		Duration duration = Duration.seconds(30);
 		
-		KeyFrame keyFrame = new KeyFrame(duration, event -> {
-			stage.close();
-		});
+		KeyFrame keyFrame = new KeyFrame(duration, event -> stage.close());
 		
 		Timeline timeline = new Timeline(keyFrame);
 		timeline.play();
