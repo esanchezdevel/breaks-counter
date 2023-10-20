@@ -157,8 +157,8 @@ public class MainWindow {
 		
 		if (isStarted) {
 			// Start the process to show notifications
-			int hours = Integer.parseInt(formHoursCombo.getValue());
-			int minutes = Integer.parseInt(formMinutesCombo.getValue());
+			long hours = Integer.parseInt(formHoursCombo.getValue());
+			long minutes = Integer.parseInt(formMinutesCombo.getValue());
 			
 			System.out.println("User selected Hours: " + hours + ", minutes: " + minutes);
 			
