@@ -46,6 +46,10 @@ public class MainWindow {
 	
 	private static Thread processThread;
 	
+	private MainWindow() {
+		
+	}
+	
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
 
@@ -88,7 +92,7 @@ public class MainWindow {
 			else
 				isStarted = false;
 			
-			startStopNotifications(stage);
+			startStopNotifications();
 		});
 
 		stage.setOnCloseRequest(event -> {
@@ -145,7 +149,7 @@ public class MainWindow {
 		});
 	}
 	
-	private static void startStopNotifications(Stage stage) {
+	private static void startStopNotifications() {
 		System.out.println("Start/Stop Notifications with isStarted: " + isStarted);
 		
 		// Print the right text on the START/STOP button
@@ -174,6 +178,7 @@ public class MainWindow {
 						Thread.sleep(30000);
 					} catch (InterruptedException e) {
 						System.out.println("Thread interrupted while waiting for next iteration");
+						Thread.currentThread().interrupt();
 					}
 					
 					if (processThread.isInterrupted()) {
