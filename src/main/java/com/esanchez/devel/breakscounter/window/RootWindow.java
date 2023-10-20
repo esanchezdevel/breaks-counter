@@ -19,6 +19,8 @@ public class RootWindow extends Application {
 	
 	
 	public static void main(String[] args) {
+		// The BorderPane is used to put the windows content in the center
+		rootLayout = new BorderPane();
 		launch(args);
 	}
 	
@@ -32,9 +34,6 @@ public class RootWindow extends Application {
 	}
 	
 	private void initRootLayout() {
-		// The BorderPane is used to put the windows content in the center
-		rootLayout = new BorderPane();
-
 		BackgroundFill backgroundFill = new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY);
 		Background background = new Background(backgroundFill);
 		rootLayout.setBackground(background);

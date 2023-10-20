@@ -28,11 +28,11 @@ public class NotificationWindow extends Application {
 	
 	private static final String MESSAGE = "It's time to take a Break!!!";
 	
-	private static double messageX = 0.00;
-	private static double messageY = WINDOW_HEIGHT / 2;
+	private double messageX = 0.00;
+	private double messageY = WINDOW_HEIGHT / 2;
 	
-	private static double imageDrinkX = WINDOW_WIDTH - 100;
-	private static double imageDrinkY = 0.00;
+	private double imageDrinkX = WINDOW_WIDTH - 100;
+	private double imageDrinkY = 0.00;
 	
 	public static void main(String[] args) {
 		launch(args);
