@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 public class MainWindow {
 
+	private static final int WAIT_TIME = 30000;
+	
 	// store positions in static variables because the width and height of the
 	// elements are not accessible when we change from one window to another
 	private static double titleX = 0.0;
@@ -45,6 +47,10 @@ public class MainWindow {
 	private static ComboBox<String> formMinutesCombo;
 	
 	private static Thread processThread;
+	
+	private MainWindow() {
+		
+	}
 	
 	public static void show(Stage stage) {
 		Pane layout = new Pane();
@@ -88,7 +94,7 @@ public class MainWindow {
 			else
 				isStarted = false;
 			
-			startStopNotifications(stage);
+			startStopNotifications();
 		});
 
 		stage.setOnCloseRequest(event -> {
@@ -103,7 +109,7 @@ public class MainWindow {
 		layout.getChildren().addAll(title, description, formHoursLabel, formHoursCombo, formMinutesLabel,
 				formMinutesCombo, startStopButton);
 
-		RootWindow.rootLayout.setCenter(layout);
+		RootWindow.getRootLayout().setCenter(layout);
 
 		// Place the elements in the right place when we have all elements size
 		// available
@@ -145,7 +151,7 @@ public class MainWindow {
 		});
 	}
 	
-	private static void startStopNotifications(Stage stage) {
+	private static void startStopNotifications() {
 		System.out.println("Start/Stop Notifications with isStarted: " + isStarted);
 		
 		// Print the right text on the START/STOP button
@@ -153,15 +159,7 @@ public class MainWindow {
 		
 		if (isStarted) {
 			// Start the process to show notifications
-			int hours = Integer.valueOf(formHoursCombo.getValue());
-			int minutes = Integer.valueOf(formMinutesCombo.getValue());
-			
-			System.out.println("User selected Hours: " + hours + ", minutes: " + minutes);
-			
-			long hoursMilliseconds = hours * 60 * 60 * 1000;
-			long minutesMilliseconds = minutes *60 * 1000;
-			
-			final long waitTime = hoursMilliseconds + minutesMilliseconds;
+			final long waitTime = calculateWaitTime();
 			
 			isStarted = true;
 
@@ -170,11 +168,7 @@ public class MainWindow {
 				System.out.println("Starting processThread...");
 				long startTime = System.currentTimeMillis();
 				while (isStarted) {
-					try {
-						Thread.sleep(30000);
-					} catch (InterruptedException e) {
-						System.out.println("Thread interrupted while waiting for next iteration");
-					}
+					waitSeconds();
 					
 					if (processThread.isInterrupted()) {
 						System.out.println("The thread was interrupted. Exit");
@@ -187,12 +181,7 @@ public class MainWindow {
 
 						Platform.runLater(() -> {
 							NotificationWindow notificationWindow = new NotificationWindow();
-							try {
-								notificationWindow.start(new Stage());
-							} catch (Exception e) {
-								System.out.println("Error starting notification window");
-								e.printStackTrace();
-							}							
+							showNotification(notificationWindow);							
 						});
 						
 						startTime = currentTime;
@@ -207,5 +196,35 @@ public class MainWindow {
 			isStarted = false;
 			processThread.interrupt();
 		}
+	}
+
+	private static void showNotification(NotificationWindow notificationWindow) {
+		try {
+			notificationWindow.start(new Stage());
+		} catch (Exception e) {
+			System.out.println("Error starting notification window");
+			e.printStackTrace();
+		}
+	}
+
+	private static void waitSeconds() {
+		try {
+			Thread.sleep(WAIT_TIME);
+		} catch (InterruptedException e) {
+			System.out.println("Thread interrupted while waiting for next iteration");
+			Thread.currentThread().interrupt();
+		}
+	}
+
+	private static long calculateWaitTime() {
+		long hours = Integer.parseInt(formHoursCombo.getValue());
+		long minutes = Integer.parseInt(formMinutesCombo.getValue());
+		
+		System.out.println("User selected Hours: " + hours + ", minutes: " + minutes);
+		
+		long hoursMilliseconds = hours * 60 * 60 * 1000;
+		long minutesMilliseconds = minutes *60 * 1000;
+		
+		return hoursMilliseconds + minutesMilliseconds;
 	}
 }
