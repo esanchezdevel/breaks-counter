@@ -52,15 +52,11 @@ public class NotificationWindow extends Application {
 		// Create window elements
 		Label message = new Label(MESSAGE);
 		message.setFont(CustomFonts.text());
+		
+        Image imageDrink = new Image(getClass().getResourceAsStream("/images/dog-drink-water.gif"));
+        Image imageExercise = new Image(getClass().getResourceAsStream("/images/estiramientos1.gif"));
 
-		
-        ClassLoader classLoader = getClass().getClassLoader();
-        String imageDrinkUrl = classLoader.getResource("images/dog-drink-water.gif").toExternalForm();
-        String imageExerciseUrl = classLoader.getResource("images/estiramientos1.gif").toExternalForm();
         
-		Image imageDrink = new Image(imageDrinkUrl);
-		Image imageExercise = new Image(imageExerciseUrl);
-		
 		ImageView imageViewDrink = new ImageView(imageDrink);
 		imageViewDrink.setFitWidth(100);
 		imageViewDrink.setFitHeight(100);

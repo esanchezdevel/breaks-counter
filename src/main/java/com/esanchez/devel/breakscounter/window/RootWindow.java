@@ -41,9 +41,7 @@ public class RootWindow extends Application {
 		rootLayout.setBackground(background);
 		
 		// Configure the application icon
-		ClassLoader classLoader = getClass().getClassLoader();
-		String iconImageUrl = classLoader.getResource("images/icon.png").toExternalForm();
-		Image iconImage = new Image(iconImageUrl);
+		Image iconImage = new Image(getClass().getResourceAsStream("/images/icon.png"));
 		stage.getIcons().add(iconImage);
 		
 		MainWindow.show(stage);

@@ -2,9 +2,6 @@ package com.esanchez.devel.breakscounter.window;
 
 import java.time.LocalDateTime;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.esanchez.devel.breakscounter.util.Constants;
 import com.esanchez.devel.breakscounter.util.CustomFonts;
 
@@ -18,8 +15,6 @@ import javafx.stage.Stage;
 
 public class MainWindow {
 
-	private static final Logger logger = LogManager.getLogger(MainWindow.class);
-	
 	private static final int WAIT_TIME = 30000;
 	
 	// store positions in static variables because the width and height of the
@@ -103,8 +98,6 @@ public class MainWindow {
 		});
 
 		stage.setOnCloseRequest(event -> {
-            logger.info("User is closing the window...");
-
             if (isStarted) {
             	isStarted = false;
             	processThread.interrupt();
@@ -157,8 +150,6 @@ public class MainWindow {
 	}
 	
 	private static void startStopNotifications() {
-		logger.info("Start/Stop Notifications with isStarted: {}", isStarted);
-		
 		// Print the right text on the START/STOP button
 		startStopButton.setText(isStarted ? "Stop" : "Start");
 		
@@ -170,19 +161,16 @@ public class MainWindow {
 
 			// Asynchronous thread where control when the notification window has to be shown
 			processThread = new Thread(() -> {
-				logger.info("Starting processThread...");
 				long startTime = System.currentTimeMillis();
 				while (isStarted) {
 					waitSeconds();
 					
 					if (processThread.isInterrupted()) {
-						logger.info("The thread was interrupted. Exit");
 						break;
 					}
 					
 					long currentTime = System.currentTimeMillis();
 					if (currentTime - startTime > waitTime) {
-						logger.info("Show new notification: {}", LocalDateTime.now());
 
 						Platform.runLater(() -> {
 							NotificationWindow notificationWindow = new NotificationWindow();
@@ -192,12 +180,10 @@ public class MainWindow {
 						startTime = currentTime;
 					}
 				}
-				logger.info("Finishing thread...");
 			});
 			processThread.start();
 		} else {
 			// Setting isStarted to "false" we can stop the process executed in the thread
-			logger.info("Setting isStarted to false...");
 			isStarted = false;
 			processThread.interrupt();
 		}
@@ -207,7 +193,6 @@ public class MainWindow {
 		try {
 			notificationWindow.start(new Stage());
 		} catch (Exception e) {
-			logger.info("Error starting notification window");
 			e.printStackTrace();
 		}
 	}
@@ -216,7 +201,6 @@ public class MainWindow {
 		try {
 			Thread.sleep(WAIT_TIME);
 		} catch (InterruptedException e) {
-			logger.info("Thread interrupted while waiting for next iteration");
 			Thread.currentThread().interrupt();
 		}
 	}
@@ -224,8 +208,6 @@ public class MainWindow {
 	private static long calculateWaitTime() {
 		long hours = Integer.parseInt(formHoursCombo.getValue());
 		long minutes = Integer.parseInt(formMinutesCombo.getValue());
-		
-		logger.info("User selected Hours: {}, Minutes: {}", hours, minutes);
 		
 		long hoursMilliseconds = hours * 60 * 60 * 1000;
 		long minutesMilliseconds = minutes *60 * 1000;
