@@ -16,4 +16,4 @@ This will create a .zip file in the /target path. To execute the application you
 
 **Executable:**
 
-You can find the executable of this project in the file breaksCounter.zip
+You can find the executable of this project in the files breaksCounterLinux.zip and breaksCounterWindows.zip depending on your OS
